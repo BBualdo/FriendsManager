@@ -1,4 +1,4 @@
-﻿namespace Contracts;
+﻿namespace Repository;
 
 public interface IRepository<T>
 {

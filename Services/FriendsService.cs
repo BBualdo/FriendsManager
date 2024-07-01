@@ -1,16 +1,18 @@
 ﻿using Contracts;
 using Contracts.DTO;
 using Data.Models;
+using ModelExtensions;
+using Repository;
 
 namespace Services;
 
-public class FriendsService(IRepository<Friend> friendsRepository) : IFriendsService
+public class FriendsService(IFriendsRepository friendsRepository) : IFriendsService
 {
-  private readonly IRepository<Friend> _friendsRepository = friendsRepository;
+  private readonly IFriendsRepository _friendsRepository = friendsRepository;
   
-  public async Task<IEnumerable<Friend>> GetFriendsAsync()
+  public async Task<IEnumerable<FriendResDto>> GetFriendsAsync()
   {
-    return await _friendsRepository.GetAsync();
+    return await _friendsRepository.GetFriendsAsync();
   }
 
   public async Task<Friend?> GetFriendByIdAsync(int id)
@@ -23,9 +25,9 @@ public class FriendsService(IRepository<Friend> friendsRepository) : IFriendsSer
     await _friendsRepository.AddAsync(friend.ToFriend());
   }
 
-  public async Task UpdateFriendAsync(Friend friend)
+  public async Task UpdateFriendAsync(FriendUpdateDto friend)
   {
-    await _friendsRepository.UpdateAsync(friend);
+    await _friendsRepository.UpdateAsync(friend.ToFriend());
   }
 
   public async Task DeleteFriendAsync(Friend friend)

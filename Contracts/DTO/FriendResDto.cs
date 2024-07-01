@@ -1,8 +1,8 @@
 ﻿using Data.Enums;
 
-namespace Data.Models;
+namespace Contracts.DTO;
 
-public class Friend
+public class FriendResDto
 {
   public int Id { get; set; }
   public string? FirstName { get; set; }
@@ -10,6 +10,5 @@ public class Friend
   public DateOnly LastContactDate { get; set; }
   public ContactTypes LastContactType { get; set; }
   public int DesiredContactFrequency { get; set; }
-  public int? CategoryId { get; set; }
-  public Category? Category { get; set; }
+  public string? CategoryName { get; set; }
 }

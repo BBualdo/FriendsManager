@@ -1,8 +1,7 @@
-﻿using Contracts;
-using Data;
+﻿using Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Services;
+namespace Repository;
 
 public class Repository<T>(FriendsDbContext dbContext) : IRepository<T> where T : class
 {

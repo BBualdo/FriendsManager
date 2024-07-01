@@ -3,8 +3,9 @@ using Data.Models;
 
 namespace Contracts.DTO;
 
-public class FriendReqDto
+public class FriendUpdateDto
 {
+  public int Id { get; set; }
   public string? FirstName { get; set; }
   public string? LastName { get; set; }
   public DateOnly LastContactDate { get; set; }
@@ -16,6 +17,7 @@ public class FriendReqDto
   {
     return new Friend
     {
+      Id = Id,
       FirstName = FirstName,
       LastName = LastName,
       LastContactDate = LastContactDate,

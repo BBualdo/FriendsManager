@@ -5,9 +5,9 @@ namespace Contracts;
 
 public interface IFriendsService
 {
-  Task<IEnumerable<Friend>> GetFriendsAsync();
+  Task<IEnumerable<FriendResDto>> GetFriendsAsync();
   Task<Friend?> GetFriendByIdAsync(int id);
   Task AddFriendAsync(FriendReqDto friend);
-  Task UpdateFriendAsync(Friend friend);
+  Task UpdateFriendAsync(FriendUpdateDto friend);
   Task DeleteFriendAsync(Friend friend);
 }

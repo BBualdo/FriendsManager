@@ -5,9 +5,9 @@ namespace Contracts;
 
 public interface ICategoriesService
 {
-  Task<IEnumerable<Category>> GetCategoriesAsync();
+  Task<IEnumerable<CategoryResDto>> GetCategoriesAsync();
   Task<Category?> GetCategoryByIdAsync(int id);
   Task AddCategoryAsync(CategoryReqDto category);
-  Task UpdateCategoryAsync(Category category);
+  Task UpdateCategoryAsync(CategoryResDto category);
   Task DeleteCategoryAsync(Category category);
 }
