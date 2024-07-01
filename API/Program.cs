@@ -18,6 +18,9 @@ builder.Services.AddScoped<IFriendsRepository, FriendsRepository>();
 builder.Services.AddScoped<IRepository<Category>, Repository<Category>>();
 builder.Services.AddScoped<IFriendsService, FriendsService>();
 builder.Services.AddScoped<ICategoriesService, CategoriesService>();
+builder.Services.AddCors(options => 
+  options.AddPolicy("policy", builder =>
+    builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000")));
 
 var app = builder.Build();
 
@@ -30,6 +33,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors("policy");
 
 app.MapControllers();
 
