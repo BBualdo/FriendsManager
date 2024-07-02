@@ -27,7 +27,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "./shadcn/ui/select";
@@ -35,9 +34,13 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import useCategories from "@/hooks/useCategories";
+import { contactTypeOptions } from "@/enums/ContactTypes";
+import { FriendReqDto } from "@/models/FriendReqDto";
+import useFriends from "@/hooks/useFriends";
 
 const AddFriendDialog = () => {
   const { categories } = useCategories();
+  const { addFriend } = useFriends();
 
   const formSchema = z.object({
     firstName: z.string().min(3).max(24),
@@ -60,8 +63,16 @@ const AddFriendDialog = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const newFriend: FriendReqDto = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      lastContactDate: format(values.lastContactDate, "yyyy-MM-dd"),
+      lastContactType: Number(values.lastContactType),
+      desiredContactFrequency: values.desiredContactFrequency,
+      categoryId: Number(values.categoryId),
+    };
+    await addFriend(newFriend);
   };
 
   return (
@@ -132,7 +143,6 @@ const AddFriendDialog = () => {
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
-                        selected={field.value}
                         onSelect={field.onChange}
                         disabled={(date) =>
                           date > new Date() || date < new Date("1900-01-01")
@@ -152,20 +162,19 @@ const AddFriendDialog = () => {
                 <FormItem>
                   <FormLabel>Last Contact Type</FormLabel>
                   <FormControl>
-                    <Select>
+                    <Select onValueChange={field.onChange}>
                       <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select a category" />
+                        <SelectValue placeholder="Select a contact type" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectLabel>Categories</SelectLabel>
-                          {categories &&
-                            categories.map((category) => (
+                          {contactTypeOptions &&
+                            contactTypeOptions.map((contactType) => (
                               <SelectItem
-                                key={category.id}
-                                value={category.name}
+                                key={contactType.value}
+                                value={contactType.value.toString()}
                               >
-                                {category.name}
+                                {contactType.label}
                               </SelectItem>
                             ))}
                         </SelectGroup>
@@ -183,7 +192,11 @@ const AddFriendDialog = () => {
                 <FormItem>
                   <FormLabel>Desired Contact Frequency</FormLabel>
                   <FormControl>
-                    <Input type="number" {...field} />
+                    <Input
+                      type="number"
+                      {...field}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
                   </FormControl>
                   <FormDescription>
                     Number of maximum days without contact
