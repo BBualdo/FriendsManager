@@ -28,7 +28,12 @@ const useFriends = () => {
     fetchFriends();
   }, []);
 
-  return { friends, error, isLoading, setFriends };
+  const deleteFriend = async (id: number) => {
+    await FriendsService.DeleteFriend(id);
+    setFriends((prev) => prev?.filter((f) => f.id !== id));
+  };
+
+  return { friends, error, isLoading, deleteFriend };
 };
 
 export default useFriends;

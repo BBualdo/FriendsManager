@@ -1,24 +1,20 @@
 "use client";
 
 import useFriends from "@/hooks/useFriends";
-import FriendsService from "@/services/FriendsService";
 import { capitalizeFirst } from "@/utils/capitalizeFirst";
 import { contactTypeToString } from "@/utils/contactTypeToString";
 import { Button } from "./shadcn/ui/button";
+import AddFriendDialog from "./AddFriendDialog";
 
 const App = () => {
-  const { friends, isLoading, error, setFriends } = useFriends();
-
-  const deleteFriend = async (id: number) => {
-    await FriendsService.DeleteFriend(id);
-    setFriends((prev) => prev?.filter((f) => f.id !== id));
-  };
+  const { friends, isLoading, error, deleteFriend } = useFriends();
 
   return (
     <div>
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
       <div className="flex flex-col gap-4">
+        <AddFriendDialog />
         {friends &&
           friends.map((f) => (
             <div key={f.id} className="flex items-center gap-4">
