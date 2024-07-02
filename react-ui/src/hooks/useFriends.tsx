@@ -1,13 +1,14 @@
 "use client";
 
-import { Friend } from "@/models/Friend";
 import FriendsService from "@/services/FriendsService";
-import { useEffect, useState } from "react";
+import FriendsState from "@/state/FriendsState";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
 
 const useFriends = () => {
-  const [friends, setFriends] = useState<Friend[] | null | undefined>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [friends, setFriends] = useRecoilState(FriendsState.friendsState);
+  const [error, setError] = useRecoilState(FriendsState.errorState);
+  const [isLoading, setIsLoading] = useRecoilState(FriendsState.isLoadingState);
 
   useEffect(() => {
     const fetchFriends = async () => {
