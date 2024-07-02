@@ -34,15 +34,18 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import useCategories from "@/hooks/useCategories";
 
 const AddFriendDialog = () => {
+  const { categories } = useCategories();
+
   const formSchema = z.object({
     firstName: z.string().min(3).max(24),
     lastName: z.string().min(3).max(48),
     lastContactDate: z.date(),
     lastContactType: z.string(), // TODO: change it
     desiredContactFrequency: z.number().min(1).max(7),
-    category: z.enum([""]).optional(),
+    categoryId: z.string().optional(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -53,7 +56,7 @@ const AddFriendDialog = () => {
       lastContactDate: new Date(),
       lastContactType: "",
       desiredContactFrequency: 1,
-      category: "",
+      categoryId: undefined,
     },
   });
 
@@ -151,16 +154,20 @@ const AddFriendDialog = () => {
                   <FormControl>
                     <Select>
                       <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select a fruit" />
+                        <SelectValue placeholder="Select a category" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectLabel>Fruits</SelectLabel>
-                          <SelectItem value="apple">Apple</SelectItem>
-                          <SelectItem value="banana">Banana</SelectItem>
-                          <SelectItem value="blueberry">Blueberry</SelectItem>
-                          <SelectItem value="grapes">Grapes</SelectItem>
-                          <SelectItem value="pineapple">Pineapple</SelectItem>
+                          <SelectLabel>Categories</SelectLabel>
+                          {categories &&
+                            categories.map((category) => (
+                              <SelectItem
+                                key={category.id}
+                                value={category.name}
+                              >
+                                {category.name}
+                              </SelectItem>
+                            ))}
                         </SelectGroup>
                       </SelectContent>
                     </Select>
@@ -187,23 +194,29 @@ const AddFriendDialog = () => {
             />
             <FormField
               control={form.control}
-              name="category"
+              name="categoryId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Category</FormLabel>
                   <FormControl>
-                    <Select>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value?.toString()}
+                    >
                       <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select a fruit" />
+                        <SelectValue placeholder="Select a category" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectLabel>Fruits</SelectLabel>
-                          <SelectItem value="apple">Apple</SelectItem>
-                          <SelectItem value="banana">Banana</SelectItem>
-                          <SelectItem value="blueberry">Blueberry</SelectItem>
-                          <SelectItem value="grapes">Grapes</SelectItem>
-                          <SelectItem value="pineapple">Pineapple</SelectItem>
+                          {categories &&
+                            categories.map((category) => (
+                              <SelectItem
+                                key={category.id}
+                                value={category.id.toString()}
+                              >
+                                {category.name}
+                              </SelectItem>
+                            ))}
                         </SelectGroup>
                       </SelectContent>
                     </Select>

@@ -12,7 +12,7 @@ const errorState = atom<string | null>({
 });
 
 const isLoadingState = atom<boolean>({
-  key: "isLoading",
+  key: "isLoadingFriends",
   default: false,
 });
 
