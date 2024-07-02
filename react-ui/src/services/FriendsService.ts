@@ -6,6 +6,10 @@ class FriendsService {
   async GetFriends(): Promise<Friend[]> {
     return (await axios.get(url + "/friends")).data as Friend[];
   }
+
+  async DeleteFriend(id: number): Promise<void> {
+    await axios.delete(url + "/friends/" + id);
+  }
 }
 
 export default new FriendsService();

@@ -27,7 +27,7 @@ const useFriends = () => {
     fetchFriends();
   }, []);
 
-  return { friends, error, isLoading };
+  return { friends, error, isLoading, setFriends };
 };
 
 export default useFriends;
