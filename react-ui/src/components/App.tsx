@@ -4,6 +4,7 @@ import useFriends from "@/hooks/useFriends";
 import FriendsService from "@/services/FriendsService";
 import { capitalizeFirst } from "@/utils/capitalizeFirst";
 import { contactTypeToString } from "@/utils/contactTypeToString";
+import { Button } from "./shadcn/ui/button";
 
 const App = () => {
   const { friends, isLoading, error, setFriends } = useFriends();
@@ -32,12 +33,9 @@ const App = () => {
                   </p>
                 </div>
               </div>
-              <button
-                onClick={() => deleteFriend(f.id)}
-                className="bg-red-500 py-2 px-4"
-              >
+              <Button onClick={() => deleteFriend(f.id)} variant="destructive">
                 Delete
-              </button>
+              </Button>
             </div>
           ))}
       </div>
