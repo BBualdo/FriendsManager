@@ -8,4 +8,5 @@ export interface Friend {
   lastContactType: ContactTypes;
   desiredContactFrequency: number;
   categoryName?: string;
+  categoryId?: number;
 }

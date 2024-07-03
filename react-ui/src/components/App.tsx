@@ -4,7 +4,7 @@ import useFriends from "@/hooks/useFriends";
 import { capitalizeFirst } from "@/utils/capitalizeFirst";
 import { contactTypeToString } from "@/utils/contactTypeToString";
 import { Button } from "./shadcn/ui/button";
-import AddFriendDialog from "./AddFriendDialog";
+import EditFriendDialog from "./EditFriendDialog";
 
 const App = () => {
   const { friends, isLoading, error, deleteFriend } = useFriends();
@@ -14,7 +14,7 @@ const App = () => {
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
       <div className="flex flex-col gap-4">
-        <AddFriendDialog />
+        <EditFriendDialog />
         {friends &&
           friends.map((f) => (
             <div key={f.id} className="flex items-center gap-4">
@@ -29,6 +29,7 @@ const App = () => {
                   </p>
                 </div>
               </div>
+                <EditFriendDialog friend={f} />
               <Button onClick={() => deleteFriend(f.id)} variant="destructive">
                 Delete
               </Button>
