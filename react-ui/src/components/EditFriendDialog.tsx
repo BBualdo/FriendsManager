@@ -1,13 +1,12 @@
-import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,} from "./shadcn/ui/dialog";
+import {Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger} from "./shadcn/ui/dialog";
 import {Button} from "./shadcn/ui/button";
-import {Form,} from "./shadcn/ui/form";
+import {Form} from "./shadcn/ui/form";
 import {format} from "date-fns";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
 import useFriends from "@/hooks/useFriends";
 import {Friend} from "@/models/Friend";
-import {parseDate} from "@/utils/parseDate";
 import {useState} from "react";
 import FirstNameInput from "@/components/friendDialogComponents/FirstNameInput";
 import {formSchema} from "@/components/friendDialogComponents/formSchema";
@@ -26,7 +25,7 @@ const EditFriendDialog = ({friend}: { friend?: Friend }) => {
         defaultValues: {
             firstName: friend?.firstName ?? "",
             lastName: friend?.lastName ?? "",
-            lastContactDate: parseDate(friend?.lastContactDate.toString()) ?? new Date(),
+            lastContactDate: friend?.lastContactDate ?? new Date().toString(),
             lastContactType: friend?.lastContactType.toString() || "",
             desiredContactFrequency: friend?.desiredContactFrequency ?? 1,
             categoryId: friend?.categoryId?.toString() ?? undefined,
@@ -56,7 +55,7 @@ const EditFriendDialog = ({friend}: { friend?: Friend }) => {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="default">{friend ? "Edit" : "Add Friend"}</Button>
+                <Button variant="secondary">{friend ? "Edit" : "Add Friend"}</Button>
             </DialogTrigger>
             <DialogContent className="w-full">
                 <DialogHeader>

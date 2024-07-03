@@ -4,7 +4,7 @@ export interface Friend {
   id: number;
   firstName: string;
   lastName: string;
-  lastContactDate: Date | string;
+  lastContactDate: string;
   lastContactType: ContactTypes;
   desiredContactFrequency: number;
   categoryName?: string;
