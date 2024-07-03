@@ -16,24 +16,4 @@ public class CategoriesService(IRepository<Category> categoriesRepository) : ICa
 
     return categories.Select(category => category.ToCategoryResponse()).ToList();
   }
-
-  public async Task<Category?> GetCategoryByIdAsync(int id)
-  {
-    return await _categoriesRepository.GetByIdAsync(id);
-  }
-
-  public async Task AddCategoryAsync(CategoryReqDto category)
-  {
-    await _categoriesRepository.AddAsync(category.ToCategory());
-  }
-
-  public async Task UpdateCategoryAsync(CategoryResDto category)
-  {
-    await _categoriesRepository.UpdateAsync(category.ToCategory());
-  }
-
-  public async Task DeleteCategoryAsync(Category category)
-  {
-    await _categoriesRepository.DeleteAsync(category);
-  }
 }

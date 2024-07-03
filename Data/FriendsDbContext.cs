@@ -1,4 +1,5 @@
 ﻿using Data.Configurations;
+using Data.Dummies;
 using Data.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,15 @@ public class FriendsDbContext(DbContextOptions options) : DbContext(options)
   {
     modelBuilder.ApplyConfiguration(new FriendsConfiguration());
     modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+    modelBuilder.Seed();
     base.OnModelCreating(modelBuilder);
+  }
+}
+
+public static class ModelBuilderExtensions
+{
+  public static void Seed(this ModelBuilder modelBuilder)
+  {
+    modelBuilder.Entity<Category>().HasData(DummyCategories.GetCategories());
   }
 }
