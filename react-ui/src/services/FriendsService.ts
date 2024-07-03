@@ -11,6 +11,10 @@ class FriendsService {
     await axios.post(url + "/friends", friend);
   }
 
+  async UpdateFriend(friend: Friend): Promise<void> {
+    await axios.put(url + "/friends", friend);
+  }
+
   async DeleteFriend(id: number): Promise<void> {
     await axios.delete(url + "/friends/" + id);
   }

@@ -15,7 +15,8 @@ public static class FriendExtensions
         LastContactDate = friend.LastContactDate,
         LastContactType = friend.LastContactType,
         DesiredContactFrequency = friend.DesiredContactFrequency,
-        CategoryName = friend.Category?.Name
+        CategoryName = friend.Category?.Name,
+        CategoryId = friend.CategoryId
       };
     } 
 }

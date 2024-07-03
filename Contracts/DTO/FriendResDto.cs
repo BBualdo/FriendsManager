@@ -11,4 +11,5 @@ public class FriendResDto
   public ContactTypes LastContactType { get; set; }
   public int DesiredContactFrequency { get; set; }
   public string? CategoryName { get; set; }
+  public int? CategoryId { get; set; }
 }

@@ -37,10 +37,12 @@ import {contactTypeOptions} from "@/enums/ContactTypes";
 import useFriends from "@/hooks/useFriends";
 import {Friend} from "@/models/Friend";
 import {parseDate} from "@/utils/parseDate";
+import {useState} from "react";
 
 const EditFriendDialog = ({friend}: { friend?: Friend }) => {
+    const [open, setOpen] = useState(false);
     const {categories} = useCategories();
-    const {addFriend} = useFriends();
+    const {addFriend, updateFriend} = useFriends();
 
     const formSchema = z.object({
         firstName: z.string().min(3).max(24),
@@ -75,15 +77,16 @@ const EditFriendDialog = ({friend}: { friend?: Friend }) => {
         };
 
         if (friend) {
-            console.log(friend)
-            console.log(newFriend)
+            await updateFriend(newFriend)
         } else {
             await addFriend(newFriend)
         }
+
+        setOpen(false);
     };
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button variant="default">{friend ? "Edit" : "Add Friend"}</Button>
             </DialogTrigger>

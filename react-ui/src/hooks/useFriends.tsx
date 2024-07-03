@@ -1,10 +1,10 @@
 "use client";
 
-import { FriendReqDto } from "@/models/FriendReqDto";
 import FriendsService from "@/services/FriendsService";
 import FriendsState from "@/state/FriendsState";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
+import {Friend} from "@/models/Friend";
 
 const useFriends = () => {
   const [friends, setFriends] = useRecoilState(FriendsState.friendsState);
@@ -29,17 +29,28 @@ const useFriends = () => {
     fetchFriends();
   }, []);
 
-  const addFriend = async (friend: FriendReqDto) => {
+  const addFriend = async (friend: Friend) => {
     await FriendsService.AddFriend(friend);
     await fetchFriends();
   };
+
+  const updateFriend = async (friend: Friend) => {
+    await FriendsService.UpdateFriend(friend);
+    if (friends) {
+      const updatedFriends = [...friends];
+      const friendIndex = friends.findIndex((f) => f.id === friend.id);
+      updatedFriends[friendIndex] = friend;
+      setFriends(updatedFriends);
+    }
+
+  }
 
   const deleteFriend = async (id: number) => {
     await FriendsService.DeleteFriend(id);
     setFriends((prev) => prev?.filter((f) => f.id !== id));
   };
 
-  return { friends, error, isLoading, deleteFriend, addFriend };
+  return { friends, error, isLoading, deleteFriend, addFriend, updateFriend };
 };
 
 export default useFriends;
